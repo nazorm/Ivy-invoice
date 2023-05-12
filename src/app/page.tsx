@@ -9,9 +9,9 @@ export default function Home() {
     //   </div>
 
     // </main>
-    <div className='bg-lightBg dark:bg-darkBg flex'>
+    <main className='bg-lightBg dark:bg-darkBg flex'>
       <Sidebar/>
       <HomePage />
-    </div>
+    </main>
   )
 }
