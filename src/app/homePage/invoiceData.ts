@@ -13,7 +13,7 @@ export const invoiceData = [
     name: "Jensen Huang",
     currency: "$",
     totalAmount: "1,800.90",
-    status: "Paid",
+    status: "Pending",
   },
   {
     invoiceNumber: "#RT6080",
@@ -21,7 +21,7 @@ export const invoiceData = [
     name: "Jensen Huang",
     currency: "£",
     totalAmount: "1,800.90",
-    status: "Paid",
+    status: "Draft",
   },
   {
     invoiceNumber: "#RT3680",

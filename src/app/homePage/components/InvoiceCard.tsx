@@ -1,6 +1,7 @@
 import React from 'react';
 import arrowIcon from '../../../assets/forward-arrow.svg';
 import Image from 'next/image';
+import { StatusTags } from '@/components/status';
 interface IInvoiceProps {
     invoice: IInvoicecardProps;
 }
@@ -20,7 +21,7 @@ export const InvoiceCard = (props: IInvoiceProps) => {
             <span className='text-sm text-grey-text-light dark:text-grey-text-dark'>{invoice.date}</span>
             <span className='text-sm text-light-grey dark:text-color-text-light'>{invoice.name}</span>
             <p className='font-bold text-lg'>{invoice.currency} {invoice.totalAmount}</p>
-            <p className='text-sm'>{invoice.status}</p>
+            <StatusTags status={invoice.status} />
             <button className='mt-2'>
                 <Image src={arrowIcon} alt='more' />
             </button>

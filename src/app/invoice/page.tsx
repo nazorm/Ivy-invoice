@@ -1,4 +1,4 @@
-import Image from 'next/image'
+"use client"; // this is a client component 👈🏽
 import { Sidebar } from '@/components/layout/sidebar';
 import { InvoiceScreen } from './components';
 

@@ -8,7 +8,7 @@ import { EmptyInvoiceList } from './components/EmptyInvoiceList';
 
 const HomePage = () => {
     //invoiceData
-    const [invoicList, setiInvoiceList] = useState<IInvoicecardProps[] | []>([]);
+    const [invoicList, setiInvoiceList] = useState<IInvoicecardProps[] | []>(invoiceData);
     const [selectedFilter, setSelectedFilter] = useState('')
     const handleSelectedFilter = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedFilter(event.target.value);

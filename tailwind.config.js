@@ -32,8 +32,9 @@ module.exports = {
       "accent-color-text" : "#7E88C3",
       "color-red" : "#EC5757",
       "color-red-hover" : "#FF9797",
-      "draft-color" : "#373B53",
-      
+      "color-draft" : "#373B53",
+      "color-success" : '#33D69F',
+      "color-warning" : '#FF8F00',   
     },
     fontFamily: {
       sans: ["Graphik", "sans-serif"],
