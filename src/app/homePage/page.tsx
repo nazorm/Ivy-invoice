@@ -16,7 +16,7 @@ const HomePage = () => {
     const newDate = new Date();
     return (
         <main className='border border-dotted border-red-400 w-full '>
-            <section className=' w-4/5 mx-auto my-20'>
+            <section className='w-4/5 mx-auto my-20'>
                 <Header handleSelectedFilter={handleSelectedFilter} />
                 <section className='mt-20'>
                     {invoicList.length > 0 ?

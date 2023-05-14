@@ -28,6 +28,12 @@ module.exports = {
       "grey-text-dark" : "#DFE3FA",
       "grey-text-light" : "#888EB0",
       "grey-border-dark" : "#1E2139",
+      "default-light-color" : "#F9FAFE",
+      "accent-color-text" : "#7E88C3",
+      "color-red" : "#EC5757",
+      "color-red-hover" : "#FF9797",
+      "draft-color" : "#373B53",
+      
     },
     fontFamily: {
       sans: ["Graphik", "sans-serif"],

@@ -1,5 +1,5 @@
 import React from 'react';
-import arrowIcon from '../../../assets/arrow-icon.svg';
+import arrowIcon from '../../../assets/forward-arrow.svg';
 import Image from 'next/image';
 interface IInvoiceProps {
     invoice: IInvoicecardProps;
@@ -9,7 +9,7 @@ export interface IInvoicecardProps {
     date: string;
     name: string;
     currency: string;
-    amount: string;
+    totalAmount: string;
     status: string;
 }
 export const InvoiceCard = (props: IInvoiceProps) => {
@@ -19,7 +19,7 @@ export const InvoiceCard = (props: IInvoiceProps) => {
             <p className='font-bold text-sm'>{invoice.invoiceNumber}</p>
             <span className='text-sm text-grey-text-light dark:text-grey-text-dark'>{invoice.date}</span>
             <span className='text-sm text-light-grey dark:text-color-text-light'>{invoice.name}</span>
-            <p className='font-bold text-lg'>{invoice.currency} {invoice.amount}</p>
+            <p className='font-bold text-lg'>{invoice.currency} {invoice.totalAmount}</p>
             <p className='text-sm'>{invoice.status}</p>
             <button className='mt-2'>
                 <Image src={arrowIcon} alt='more' />
