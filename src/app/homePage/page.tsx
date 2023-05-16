@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Header } from './components/Header';
 import { IInvoicecardProps, InvoiceCard } from './components/InvoiceCard';
-import { invoiceData } from './invoiceData';
+import { invoiceData } from './invoiceCardData';
 import { EmptyInvoiceList } from './components/EmptyInvoiceList';
 
 

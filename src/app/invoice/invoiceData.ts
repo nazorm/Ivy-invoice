@@ -1,11 +1,12 @@
 export const invoiceData = {
   status: "pending",
+  invoiceCode : '#XM9141',
   invoiceName: "Graphic Design",
   billerName: "Alex Grim",
   billerEmail: "alexgrim@gmail.com",
   billerAddress: "84 Church Way Bradford BD1 9PB United Kingdom",
-  billedDate: new Date(),
-  dueDate: new Date(),
+  billedDate:  "19 Aug, 2021",
+  dueDate:  "19 Aug, 2021",
   totalAmountCurrency: "£",
   totalAmount: "556.00",
   items: [

@@ -21,7 +21,7 @@ export const StatusTags = (props: ITagProps) => {
             break;
     }
     return (
-        <span className={`text-sm ${colorClasses} font-bold py-2 px-5 rounded-lg before:content-['•'] before:mr-2`}>
+        <span className={`text-sm ${colorClasses} font-bold py-3 px-4 rounded-lg before:content-['•'] before:mr-2`}>
             {status}
         </span>
     )

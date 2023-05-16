@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/button';
 import { StatusTags } from '@/components/status';
+import { InvoiceInfo } from './InvoiceInfo';
 
 
 
@@ -40,6 +41,7 @@ export const InvoiceScreen = () => {
                         <Button btnText='Mark as Paid' btnType='primary' primaryAction={markAsPaid} />
                     </div>
                 </div>
+                <InvoiceInfo/>
             </section>
 
         </section>
