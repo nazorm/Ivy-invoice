@@ -13,16 +13,17 @@ export const invoiceData = {
     {
       itemName: "Banner Design",
       qty: 1,
-      price: "156.0",
+      price: 156,
       itemCurrency: "£",
-      totalItemPrice: "156.0",
+      totalItemPrice:  156,
     },
     {
       itemName: "Email Design",
       qty: 2,
-      price: "200.0",
+      price: 200.00,
       itemCurrency: "£",
-      totalItemPrice: "400.0",
+      totalItemPrice: 200,
     },
   ],
 };
+

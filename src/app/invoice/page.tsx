@@ -1,5 +1,5 @@
 "use client"; // this is a client component 👈🏽
-import { Sidebar } from '@/components/layout/sidebar';
+import { Sidebar } from '@/components/layout/Sidebar';
 import { InvoiceScreen } from './components';
 
 export default function InvoicePage() {

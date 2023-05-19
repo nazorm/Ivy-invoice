@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Filter } from './Filter';
-import { Button } from '@/components/button';
+import { Button } from '@/components/Button';
 
 interface Props {
     handleSelectedFilter: (event: ChangeEvent<HTMLSelectElement>) => void

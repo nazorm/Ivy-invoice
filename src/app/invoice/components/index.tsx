@@ -2,9 +2,11 @@ import React from 'react';
 import backArrow from '../../../assets/back-arrow.svg'
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/button';
+import { Button } from '@/components/Button';
 import { StatusTags } from '@/components/status';
 import { InvoiceInfo } from './InvoiceInfo';
+import { ItemList } from './ItemList';
+import { invoiceData } from '../invoiceData';
 
 
 
@@ -20,10 +22,10 @@ export const InvoiceScreen = () => {
         console.log('paid')
     }
     return (
-        <section className='border border-dotted border-red-400 w-full'>
-            <section className='w-4/5 mx-auto my-20 border border-dashed border-green-400'>
+        <section className='w-full'>
+            <section className='w-full md:w-4/5  md:mx-auto  my-20 border border-dashed border-green-400'>
                 <Link href={'/'}>
-                    <p className='flex font-bold mb-5'>
+                    <p className='flex font-bold mb-5 px-5'>
                         <Image src={backArrow} alt='back-arrow' className='mr-5' />
                         Go back
                     </p>
@@ -42,6 +44,7 @@ export const InvoiceScreen = () => {
                     </div>
                 </div>
                 <InvoiceInfo/>
+                <ItemList itemsList = {invoiceData.items}/>
             </section>
 
         </section>
