@@ -8,6 +8,7 @@ import { InvoiceInfo } from './InvoiceInfo';
 import { ItemList } from './ItemList';
 import { invoiceData } from '../invoiceData';
 import Drawer from '@/components/Drawer';
+import { AddEditInvoiceForm } from './AddEditInvoice';
 
 
 
@@ -28,7 +29,7 @@ export const InvoiceScreen = () => {
 
             <section className='w-full md:w-4/5  md:mx-auto  my-20 border border-dashed border-green-400'>
                 <Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
-                    { }
+                  <AddEditInvoiceForm isEditing={true}/>
                 </Drawer>
                 <Link href={'/'}>
                     <p className='flex font-bold mb-5 px-5'>
@@ -52,7 +53,7 @@ export const InvoiceScreen = () => {
                     </div>
                 </div>
                 <InvoiceInfo />
-                <ItemList itemsList={invoiceData.items} />
+                {/* <ItemList itemsList={invoiceData.items} /> */}
             </section>
 
         </section>

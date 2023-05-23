@@ -1,4 +1,5 @@
 export const invoiceData = {
+  id: 1,
   status: "pending",
   invoiceCode : '#XM9141',
   invoiceName: "Graphic Design",
@@ -8,19 +9,21 @@ export const invoiceData = {
   billedDate:  "19 Aug, 2021",
   dueDate:  "19 Aug, 2021",
   totalAmountCurrency: "£",
-  totalAmount: "556.00",
+  totalAmount: 556.00,
   items: [
     {
+      id: 2,
       itemName: "Banner Design",
       qty: 1,
-      price: 156,
+      unitPrice: 156,
       itemCurrency: "£",
       totalItemPrice:  156,
     },
     {
+      id:3,
       itemName: "Email Design",
       qty: 2,
-      price: 200.00,
+      unitPrice: 200.00,
       itemCurrency: "£",
       totalItemPrice: 200,
     },
