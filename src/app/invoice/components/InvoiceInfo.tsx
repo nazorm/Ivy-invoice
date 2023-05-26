@@ -1,9 +1,13 @@
 import React from 'react';
-import { invoiceData } from '../invoiceData';
-import { ItemList } from './ItemList';
 
-export const InvoiceInfo = () => {
-    const totalPrice = invoiceData.items.reduce((a, b) => a + b.totalItemPrice, 0)
+import { ItemList } from './ItemList';
+import { IInvoiceProps } from '../types';
+
+interface Props{
+    invoiceData : IInvoiceProps
+}
+export const InvoiceInfo = ({invoiceData}:Props) => {
+    const totalPrice = invoiceData?.items?.reduce((a, b) => a + b.totalItemPrice, 0)
     return (
         <section className='bg-color-text-light dark:bg-grey-border-dark mt-5 rounded-lg p-5'>
             <p className='mb-5 text-color-text-black dark:text-color-text-light text-lg font-bold'> {invoiceData.invoiceCode} <br />

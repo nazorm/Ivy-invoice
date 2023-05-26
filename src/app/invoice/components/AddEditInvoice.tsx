@@ -1,23 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput } from '@/components/form/TextInput';
-import { IItemInfoProps } from '../types';
+import { IInvoiceProps, IItemInfoProps } from '../types';
 import { invoiceData } from '../invoiceData';
 import { ItemList } from './ItemList';
 import { Button } from '@/components/Button';
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 interface Props {
     isEditing: boolean
+    invoiceInformation?: IInvoiceProps
 }
-export const AddEditInvoiceForm = ({ isEditing }: Props) => {
+export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => {
     const [newItem, setNewItem] = useState({
         itemName: '', qty: '', price: '', total: ''
     })
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
 
-    useEffect(() => {
-        const list = invoiceData.items.map(data => data);
-        setInvoiceItemList(list);
-    }, [])
+    useEffect(()=>{
+        if (isEditing) {
+            const list = invoiceInformation!.items.map((data: any) => data);
+            setInvoiceItemList(list)
+        }
+    },[])
+
+    const { control, handleSubmit } = useForm({
+        defaultValues: {
+            billerName: '',
+            invoiceName: '',
+            billerEmail: '',
+            billerAddress: '',
+            billedDate: '',
+            dueDate: '',
+            billerCity: '',
+            billerCountry: '',
+            items: []
+        }
+    });
+
+    // useEffect(() => {
+    //     const list = invoiceData.items.map(data => data);
+    //     setInvoiceItemList(list);
+    // }, [])
     const handleDelete = (id: number) => {
         const newList = invoiceItemList.filter(item => item.id !== id)
         setInvoiceItemList(newList);
@@ -25,56 +48,119 @@ export const AddEditInvoiceForm = ({ isEditing }: Props) => {
     const handleAddNewItem = () => {
 
     }
+    const onSubmit: SubmitHandler<IInvoiceProps> = data => {
+
+    }
     return (
-        <form className='w-11/12 m-auto'>
-            <h1 className='font-bold text-xl mb-10'>Edit #XM9141</h1>
+        <form className='w-11/12 m-auto' onSubmit={handleSubmit(onSubmit)}>
+            <h1 className='font-bold text-xl my-10'>{isEditing ? `Edit ${invoiceInformation?.invoiceCode}` : 'New Invoice'}</h1>
             <p className='text-accent-color mb-3'>Bill to</p>
-            <TextInput
-                name='client-name'
-                label='Client&apos;s name'
-                inputWidth='full'
+            <Controller
+                name='billerName'
+                control={control}
+                render={({ field }) =>
+                    <TextInput
+                        {...field}
+                        label='Client&apos;s name'
+                        inputWidth='full'
+                        error=''
+                    />
+                }
             />
-            <TextInput
-                name='client-email'
-                label='Client&apos;s email'
-                inputWidth='full'
+
+            <Controller
+                name='billerEmail'
+                control={control}
+                render={({ field }) =>
+                    <TextInput
+                        {...field}
+
+                        label='Client&apos;s email'
+                        inputWidth='full'
+                    />
+                }
             />
-            <TextInput
-                name='client-address'
-                label='Street address'
-                inputWidth='full'
+
+            <Controller
+                name='billerAddress'
+                control={control}
+                render={({ field }) =>
+                    <TextInput
+                        {...field}
+
+                        label='Street address'
+                        inputWidth='full'
+                    />
+                }
             />
+
             <div className='flex flex-col md:flex-row justify-between w-full'>
-                <TextInput
-                    name='client-city'
-                    label='City'
-                    inputWidth='half'
+                <Controller
+                    name='billerCity'
+                    control={control}
+                    render={({ field }) =>
+                        <TextInput
+                            {...field}
+                            label='City'
+                            inputWidth='half'
+                        />
+                    }
                 />
-                <TextInput
-                    name='client-country'
-                    label='Country'
-                    inputWidth='half'
+
+                <Controller
+                    name='billerCountry'
+                    control={control}
+                    render={({ field }) =>
+                        <TextInput
+                            {...field}
+                            label='Country'
+                            inputWidth='half'
+                        />
+                    }
                 />
+
             </div>
             <div className='flex flex-col md:flex-row justify-between w-full'>
-                <TextInput
-                    name='invoice-date'
-                    label='Invoice Date'
-                    type='date'
-                    inputWidth='half'
+                <Controller
+                    name='billedDate'
+                    control={control}
+                    render={({ field }) =>
+                        <TextInput
+                            {...field}
+                            label='Invoice Date'
+                            type='date'
+                            inputWidth='half'
+                        />
+                    }
                 />
-                <TextInput
-                    name='due-date'
-                    label='Due Date'
-                    type='date'
-                    inputWidth='half'
+
+                <Controller
+                    name='dueDate'
+                    control={control}
+                    render={({ field }) =>
+                        <TextInput
+                            {...field}
+                            label='Due Date'
+                            type='date'
+                            inputWidth='half'
+                        />
+                    }
                 />
+
             </div>
-            <TextInput
-                name='project-description'
-                label='Project Description'
-                inputWidth='full'
+
+            <Controller
+                name='invoiceName'
+                control={control}
+                render={({ field }) =>
+                    <TextInput
+                        {...field}
+                        label='Project Description (e.g Graphic Design)'
+                        inputWidth='full'
+                    />
+                }
             />
+
             {invoiceItemList.length > 0 &&
                 <div className='mt-5'>
                     <ItemList itemsList={invoiceItemList} handleDelete={handleDelete} />
@@ -83,11 +169,12 @@ export const AddEditInvoiceForm = ({ isEditing }: Props) => {
             <div>
                 <div className='flex flex-col md:flex-row justify-between mt-10 w-full'>
                     <TextInput
-                        name='item_name'
+                        name='itemName'
                         label='Item Name'
                         type='text'
                         inputWidth='quarter'
                     />
+
                     <TextInput
                         name='qty'
                         label='Qty'

@@ -7,8 +7,7 @@ import { EmptyInvoiceList } from './components/EmptyInvoiceList';
 
 
 const HomePage = () => {
-    //invoiceData
-    const [invoicList, setiInvoiceList] = useState<IInvoicecardProps[] | []>(invoiceData);
+    const [invoiceList, setiInvoiceList] = useState<IInvoicecardProps[] | []>(invoiceData);
     const [selectedFilter, setSelectedFilter] = useState('')
     const handleSelectedFilter = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedFilter(event.target.value);
@@ -19,11 +18,11 @@ const HomePage = () => {
             <section className='w-4/5 mx-auto my-20'>
                 <Header handleSelectedFilter={handleSelectedFilter} />
                 <section className='mt-20'>
-                    {invoicList.length > 0 ?
-                        invoicList.map((data) => {
+                    {invoiceList.length > 0 ?
+                        invoiceList.map((data) => {
                             return (
                                 <InvoiceCard
-                                    key={data.invoiceNumber}
+                                    key={data.id}
                                     invoice={data}
                                 />
                             )
