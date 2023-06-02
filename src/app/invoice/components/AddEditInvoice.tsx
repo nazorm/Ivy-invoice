@@ -87,7 +87,6 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                 render={({ field }) =>
                     <TextInput
                         {...field}
-
                         label='Street address'
                         inputWidth='full'
                     />

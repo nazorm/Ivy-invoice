@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { ItemList } from './ItemList';
 import { IInvoiceProps } from '../types';
 
-interface Props{
-    invoiceData : IInvoiceProps
+interface Props {
+    invoiceData: IInvoiceProps
 }
-export const InvoiceInfo = ({invoiceData}:Props) => {
+export const InvoiceInfo = ({ invoiceData }: Props) => {
     const totalPrice = invoiceData?.items?.reduce((a, b) => a + b.totalItemPrice, 0)
     return (
         <section className='bg-color-text-light dark:bg-grey-border-dark mt-5 rounded-lg p-5'>
@@ -45,9 +44,9 @@ export const InvoiceInfo = ({invoiceData}:Props) => {
             </section>
             <div className='w-full my-10 bg-default-light-color dark:bg-grey-blue p-5 rounded-lg'>
                 <div className='md:m-10'>
-                <ItemList itemsList={invoiceData.items} isCurrencyShown={true} />
+                    <ItemList itemsList={invoiceData.items} isCurrencyShown={true} />
                 </div>
-              
+
                 <div className='flex w-full justify-between items-center md:pl-10 md:pr-16 h-20 mt-10 px-5 bg-regal-blue dark:bg-color-text-black rounded-lg'>
                     <p className='text-color-text-light font-light text-sm'>Amount Due</p>
                     <p className='text-color-text-light font-bold text-xl'>£ {totalPrice}</p>

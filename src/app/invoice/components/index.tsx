@@ -1,3 +1,4 @@
+"use client"; // this is a client component 👈🏽
 import React, { useEffect, useState } from 'react';
 import backArrow from '../../../assets/back-arrow.svg'
 import Image from 'next/image';
@@ -9,19 +10,18 @@ import { ItemList } from './ItemList';
 import { invoiceData } from '../invoiceData';
 import Drawer from '@/components/Drawer';
 import { AddEditInvoiceForm } from './AddEditInvoice';
-import { useRouter } from 'next/router';
 import { IInvoiceProps } from '../types';
 
 
-export const InvoiceScreen = () => {
-    const router = useRouter();
+export const InvoiceScreen = (invoiceId: any) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [invoiceInformation, setInvoiceInformation] = useState<IInvoiceProps>();
-    const invoiceId = router.query.invoiceId;
+
     useEffect(() => {
-        const info = invoiceData.find((data) => data.id === +invoiceId!)
+        const info = invoiceData.find((data) => data.id === +invoiceId.invoiceId)
         setInvoiceInformation(info)
     }, [])
+
     const handleEdit = () => {
         setIsDrawerOpen(true)
     }
@@ -35,9 +35,10 @@ export const InvoiceScreen = () => {
         <section className='w-full'>
 
             <section className='w-full md:w-4/5  md:mx-auto  my-20 border border-dashed border-green-400'>
-                <Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
-                    <AddEditInvoiceForm isEditing={true} invoiceInformation={invoiceInformation!}/>
-                </Drawer>
+                {!!invoiceInformation && (<Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
+                    <AddEditInvoiceForm isEditing={true} invoiceInformation={invoiceInformation} />
+                </Drawer>)}
+
                 <Link href={'/'}>
                     <p className='flex font-bold mb-5 px-5'>
                         <Image src={backArrow} alt='back-arrow' className='mr-5' />

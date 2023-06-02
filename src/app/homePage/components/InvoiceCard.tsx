@@ -30,12 +30,7 @@ export const InvoiceCard = (props: IInvoiceProps) => {
             <StatusTags status={invoice.status} />
             <button className='mt-2'>
                 <Link 
-                // href={`/invoice/${invoice.id}`}
-                    // href={{
-                    //     pathname: '/invoice/[invoiceId]',
-                    //     query: { invoiceId: invoice.id },
-                    //   }}
-                href={`/invoice/${invoice.invoiceName}?invoiceId=${invoice.id}`}
+                href={`/invoice/${invoice.id}`}
                 > <Image src={arrowIcon} alt='more' /></Link>
 
             </button>
