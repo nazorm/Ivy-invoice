@@ -7,9 +7,9 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
-@media only screen and (min-width: 1400px){
+@media only screen and (min-width: 1440px){
   :root{
-    max-width: 1400px;
+    max-width: 1440px;
     margin: auto;
   }
 }
