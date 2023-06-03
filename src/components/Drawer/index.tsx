@@ -8,9 +8,9 @@ export default function Drawer({ children, isDrawerOpen, setIsDrawerOpen } : Pro
   return (
     <main
       className={
-        " fixed overflow-hidden z-10 bg-opacity-25 inset-0 transform ease-in-out  " +
+        " fixed overflow-hidden z-10 bg-lightBg/[.6] dark:bg-darkBg/[.6] inset-0 transform ease-in-out  " +
         (isDrawerOpen
-          ? " transition-opacity opacity-100 duration-500 translate-x-0  "
+          ? " transition-opacity  duration-500 translate-x-0  "
           : " transition-all delay-500 opacity-0 translate-x-full  ")
       }
     >

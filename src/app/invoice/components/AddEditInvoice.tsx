@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { TextInput } from '@/components/form/TextInput';
 import { IInvoiceProps, IItemInfoProps } from '../types';
 import { invoiceData } from '../invoiceData';
@@ -15,14 +15,6 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
         itemName: '', qty: '', price: '', total: ''
     })
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
-
-    useEffect(()=>{
-        if (isEditing) {
-            const list = invoiceInformation!.items.map((data: any) => data);
-            setInvoiceItemList(list)
-        }
-    },[])
-
     const { control, handleSubmit } = useForm({
         defaultValues: {
             billerName: '',
@@ -37,10 +29,20 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
         }
     });
 
-    // useEffect(() => {
-    //     const list = invoiceData.items.map(data => data);
-    //     setInvoiceItemList(list);
-    // }, [])
+    useEffect(() => {
+        if (isEditing) {
+            const list = invoiceInformation!.items.map((data: any) => data);
+            setInvoiceItemList(list)
+        }
+    }, [])
+
+    const handleItemChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setNewItem({
+            ...newItem,
+            [event.target.name]: value
+        })
+    }
     const handleDelete = (id: number) => {
         const newList = invoiceItemList.filter(item => item.id !== id)
         setInvoiceItemList(newList);
@@ -172,6 +174,8 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         label='Item Name'
                         type='text'
                         inputWidth='quarter'
+                        value={newItem.itemName}
+                        onChange={handleItemChange}
                     />
 
                     <TextInput
@@ -179,12 +183,16 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         label='Qty'
                         type='number'
                         inputWidth='quarter'
+                        value={newItem.qty}
+                        onChange={handleItemChange}
                     />
                     <TextInput
                         name='price'
                         label='price'
                         type='number'
                         inputWidth='quarter'
+                        value={newItem.price}
+                        onChange={handleItemChange}
                     />
 
                 </div>

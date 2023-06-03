@@ -33,7 +33,6 @@ export const InvoiceScreen = (invoiceId: any) => {
     }
     return (
         <section className='w-full'>
-
             <section className='w-full md:w-4/5  md:mx-auto  my-20 border border-dashed border-green-400'>
                 {!!invoiceInformation && (<Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
                     <AddEditInvoiceForm isEditing={true} invoiceInformation={invoiceInformation} />
@@ -41,7 +40,8 @@ export const InvoiceScreen = (invoiceId: any) => {
 
                 <Link href={'/'}>
                     <p className='flex font-bold mb-5 px-5'>
-                        <Image src={backArrow} alt='back-arrow' className='mr-5' />
+                        <Image src={backArrow} alt='back-arrow' className='mr-5' width="0"
+                            height="0" />
                         Go back
                     </p>
                 </Link>

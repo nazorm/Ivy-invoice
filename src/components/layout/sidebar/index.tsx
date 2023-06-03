@@ -11,6 +11,7 @@ export const Sidebar = () => {
                 height={150}
                 width={150}
                 alt='logo'
+                priority
             />
         </div>
     )
