@@ -11,10 +11,12 @@ import { invoiceData } from '../invoiceData';
 import Drawer from '@/components/Drawer';
 import { AddEditInvoiceForm } from './AddEditInvoice';
 import { IInvoiceProps } from '../types';
+import Modal from '@/components/Modal';
 
 
 export const InvoiceScreen = (invoiceId: any) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [invoiceInformation, setInvoiceInformation] = useState<IInvoiceProps>();
 
     useEffect(() => {
@@ -27,13 +29,14 @@ export const InvoiceScreen = (invoiceId: any) => {
     }
     const handleDelete = () => {
         console.log('delete')
+        setIsModalOpen(false)
     }
     const markAsPaid = () => {
         console.log('paid')
     }
     return (
         <section className='w-full'>
-            <section className='w-full md:w-4/5  md:mx-auto  my-20 border border-dashed border-green-400'>
+            <section className='w-full md:w-4/5  md:mx-auto  my-20'>
                 {!!invoiceInformation && (<Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
                     <AddEditInvoiceForm isEditing={true} invoiceInformation={invoiceInformation} />
                 </Drawer>)}
@@ -55,10 +58,17 @@ export const InvoiceScreen = (invoiceId: any) => {
                     <div className='flex items-center md:w-1/3 justify-between'>
                         <Button
                             data-drawer-target="drawer-example" data-drawer-show="drawer-example" aria-controls="drawer-example"
-                            btnText='Edit' btnType='secondary' primaryAction={handleEdit} />
-                        <Button btnText='Delete' btnType='danger' primaryAction={handleDelete} />
+                            btnText='Edit' btnType='secondary' primaryAction={() => {
+                                setIsDrawerOpen(true);
+                            }} />
+                        <Button btnText='Delete' btnType='danger' primaryAction={() => {
+                            setIsModalOpen(true);
+                        }} />
                         <Button btnText='Mark as Paid' btnType='primary' primaryAction={markAsPaid} />
                     </div>
+                    {!!invoiceInformation && <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleDelete={handleDelete} invoiceCode={invoiceInformation?.invoiceCode} />}
+
+
                 </div>
                 {invoiceInformation &&
                     <InvoiceInfo invoiceData={invoiceInformation} />
