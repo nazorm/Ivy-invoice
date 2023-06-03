@@ -16,7 +16,7 @@ const HomePage = () => {
     return (
         <main className='border border-dotted border-red-400 w-full '>
             <section className='w-4/5 mx-auto my-20'>
-                <Header handleSelectedFilter={handleSelectedFilter} />
+                <Header handleSelectedFilter={handleSelectedFilter} noOfInvoice={invoiceList.length} />
                 <section className='mt-20'>
                     {invoiceList.length > 0 ?
                         invoiceList.map((data) => {
