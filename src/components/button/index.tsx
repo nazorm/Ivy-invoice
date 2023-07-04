@@ -5,7 +5,7 @@ interface Props {
     btnType: string;
     btnText: string;
     hasIcon?: boolean
-    primaryAction: () => void
+    primaryAction: (e:any) => void
 }
 
 
@@ -31,7 +31,7 @@ export const Button = (props: Props) => {
     }
 
     return (
-        <button className={`${colorClasses} flex rounded-3xl py-3 px-4 text-sm md:px-4 font-bold text-color-text-light`} onClick={primaryAction}>
+        <button className={`${colorClasses} flex rounded-3xl px-4  py-2 text-sm  font-bold text-color-text-light`} onClick={primaryAction}>
             {hasIcon && <p className='mr-3 w-6 h-6 rounded-full bg-color-text-light text-accent-color font-bold'>
                 +
             </p>}

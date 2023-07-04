@@ -6,14 +6,14 @@ interface ITagProps {
 export const StatusTags = (props: ITagProps) => {
     const { status } = props;
     let colorClasses = "bg-grey-text-dark/[.06] text-grey-text-dark"
-    switch (status) {
-        case "Paid":
+    switch (status.toUpperCase()) {
+        case "PAID":
             colorClasses = "bg-color-success/[.06] text-color-success"
             break;
-        case "Pending":
+        case "PENDING":
             colorClasses = "bg-color-warning/[.06] text-color-warning"
             break;
-        case "Draft":
+        case "DRAFT":
             colorClasses = "bg-grey-text-dark/[.06] text-grey-text-dark"
             break;
         default:
@@ -21,7 +21,7 @@ export const StatusTags = (props: ITagProps) => {
             break;
     }
     return (
-        <span className={`text-sm ${colorClasses} font-bold py-3 px-4 rounded-lg before:content-['•'] before:mr-2`}>
+        <span className={`text-sm ${colorClasses} font-bold py-3 px-4 rounded-lg before:content-['•'] before:mr-2 capitalize`}>
             {status}
         </span>
     )

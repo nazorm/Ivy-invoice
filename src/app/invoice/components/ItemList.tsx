@@ -5,7 +5,7 @@ import Image from 'next/image';
 interface Props {
     itemsList: IItemInfoProps[],
     isCurrencyShown?: boolean,
-    handleDelete?: (id:number) => void
+    handleDelete?: (id:string) => void
 }
 
 export const ItemList = ({ itemsList: items, isCurrencyShown, handleDelete}: Props) => {
@@ -23,14 +23,14 @@ export const ItemList = ({ itemsList: items, isCurrencyShown, handleDelete}: Pro
             <tbody>
                 {items.map((data) => {
                     return (
-                        <tr key={data.id} className='py-5'>
+                        <tr key={data._id} className='py-5'>
                             <td>{data.itemName}</td>
                             <td>{data.qty}</td>
                             <td>{isCurrencyShown ? data.itemCurrency : ''}{data.unitPrice}</td>
                             <td>{isCurrencyShown ? data.itemCurrency : ''}{data.totalItemPrice}</td>
                             {!isCurrencyShown &&
                                 <td >
-                                    <Image src={binIcon} alt='bin'  onClick={()=>handleDelete?.(data.id)} className='hover:cursor-pointer'/>
+                                    <Image src={binIcon} alt='bin'  onClick={()=>handleDelete?.(data._id)} className='hover:cursor-pointer'/>
                                 </td>
                             }
 

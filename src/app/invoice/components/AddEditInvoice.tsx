@@ -5,6 +5,7 @@ import { invoiceData } from '../invoiceData';
 import { ItemList } from './ItemList';
 import { Button } from '@/components/Button';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
     isEditing: boolean
@@ -12,8 +13,10 @@ interface Props {
 }
 export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => {
     const [newItem, setNewItem] = useState({
-        itemName: '', qty: '', price: '', total: ''
+        itemName: '', qty: '', unitPrice: '',
     })
+
+  
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -40,21 +43,45 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
         const value = event.target.value;
         setNewItem({
             ...newItem,
-            [event.target.name]: value
+            [event.target.name]: value,
         })
     }
-    const handleDelete = (id: number) => {
-        const newList = invoiceItemList.filter(item => item.id !== id)
+    const handleDelete = (id: string) => {
+        const newList = invoiceItemList.filter(item => item._id !== id)
         setInvoiceItemList(newList);
     }
-    const handleAddNewItem = () => {
+    const handleAddNewItem = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        const latestItem = {
+            ...newItem,
+            _id: uuidv4(),
+            itemCurrency : '$',
+            totalItemPrice: Number(newItem.unitPrice) * Number(newItem.qty),
+        }
+        setInvoiceItemList([...invoiceItemList, latestItem]);
+    }
+
+console.log('latest item', invoiceItemList)
+    const handleCancel = (event: { preventDefault: () => void; }) => {
 
     }
-    const onSubmit: SubmitHandler<IInvoiceProps> = data => {
+    const handleDraft = (event: { preventDefault: () => void; }) => {
 
+    }
+
+    const handleDiscard = (event: { preventDefault: () => void; }) => {
+
+    }
+
+    const onSubmit: SubmitHandler<IInvoiceProps> = data => {
+        if (isEditing) {
+            console.log('editing data', data)
+        } else {
+            console.log('submiting new data', data)
+        }
     }
     return (
-        <form className='w-11/12 m-auto' onSubmit={handleSubmit(onSubmit)}>
+        <form className='w-11/12 m-auto'>
             <h1 className='font-bold text-xl my-10'>{isEditing ? `Edit ${invoiceInformation?.invoiceCode}` : 'New Invoice'}</h1>
             <p className='text-accent-color mb-3'>Bill to</p>
             <Controller
@@ -187,11 +214,11 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         onChange={handleItemChange}
                     />
                     <TextInput
-                        name='price'
+                        name='unitPrice'
                         label='price'
                         type='number'
                         inputWidth='quarter'
-                        value={newItem.price}
+                        value={newItem.unitPrice}
                         onChange={handleItemChange}
                     />
 
@@ -211,27 +238,27 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                     <Button
                         btnType='secondary'
                         btnText='Discard'
-                        primaryAction={handleAddNewItem}
+                        primaryAction={handleDiscard}
                     />
                 }
-                <div className='flex mt-5  md:mt-0 justify-between max-w-xs w-56'>
+                <div className='flex mt-5  md:mt-0 justify-between md:w-7/12'>
 
                     {isEditing ?
                         <Button
                             btnType='secondary'
                             btnText='Cancel'
-                            primaryAction={handleAddNewItem}
+                            primaryAction={handleCancel}
                         /> :
                         <Button
                             btnType='draft'
                             btnText='Save as Draft'
-                            primaryAction={handleAddNewItem}
+                            primaryAction={handleDiscard}
                         />
                     }
                     <Button
                         btnType='primary'
                         btnText={isEditing ? 'Save Changes' : 'Save & Send'}
-                        primaryAction={handleAddNewItem}
+                        primaryAction={handleSubmit(onSubmit)}
                     />
                 </div>
             </section>
