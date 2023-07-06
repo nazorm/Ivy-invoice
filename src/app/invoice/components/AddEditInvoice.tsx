@@ -16,9 +16,9 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
         itemName: '', qty: '', unitPrice: '',
     })
 
-  
+
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
-    const { control, handleSubmit } = useForm({
+    const { control, handleSubmit, register } = useForm({
         defaultValues: {
             billerName: '',
             invoiceName: '',
@@ -55,13 +55,12 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
         const latestItem = {
             ...newItem,
             _id: uuidv4(),
-            itemCurrency : '$',
+            itemCurrency: '$',
             totalItemPrice: Number(newItem.unitPrice) * Number(newItem.qty),
         }
         setInvoiceItemList([...invoiceItemList, latestItem]);
     }
 
-console.log('latest item', invoiceItemList)
     const handleCancel = (event: { preventDefault: () => void; }) => {
 
     }
@@ -93,6 +92,7 @@ console.log('latest item', invoiceItemList)
                         label='Client&apos;s name'
                         inputWidth='full'
                         error=''
+                        // {...register('billerName', { value: invoiceInformation?.billerName })}
                     />
                 }
             />
@@ -103,7 +103,6 @@ console.log('latest item', invoiceItemList)
                 render={({ field }) =>
                     <TextInput
                         {...field}
-
                         label='Client&apos;s email'
                         inputWidth='full'
                     />

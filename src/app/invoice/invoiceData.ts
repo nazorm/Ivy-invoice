@@ -1,6 +1,6 @@
 export const invoiceData = [
   {
-    _id: 0,
+    _id: '0',
     status: "Complete",
     invoiceCode: "#XM2345",
     invoiceName: "AI Design",
@@ -29,7 +29,7 @@ export const invoiceData = [
     ],
   },
   {
-    _id: 1,
+    _id: '1',
     status: "Complete",
     invoiceCode: "#XM2345",
     invoiceName: "AI Design",
@@ -58,7 +58,7 @@ export const invoiceData = [
     ],
   },
   {
-    _id: 2,
+    _id: '2',
     status: "Complete",
     invoiceCode: "#XM2345",
     invoiceName: "AI Design",

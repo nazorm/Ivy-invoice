@@ -1,12 +1,13 @@
 import React from 'react';
 import { ItemList } from './ItemList';
 import { IInvoiceProps } from '../types';
+import { formatDate, addLineBreaks } from '../../../../utils/formatters';
 
 interface Props {
     invoiceData: IInvoiceProps
 }
 export const InvoiceInfo = ({ invoiceData }: Props) => {
-    const totalPrice = invoiceData?.items?.reduce((a, b) => a + b.totalItemPrice, 0)
+    const totalPrice = invoiceData?.items?.reduce((a, b) => a + +b.totalItemPrice, 0)
     return (
         <section className='bg-color-text-light dark:bg-grey-border-dark mt-5 rounded-lg p-5'>
             <p className='mb-5 text-color-text-black dark:text-color-text-light text-lg font-bold'> {invoiceData.invoiceCode} <br />
@@ -17,13 +18,13 @@ export const InvoiceInfo = ({ invoiceData }: Props) => {
                     <p className='text-base text-accent-color-text dark:text-grey-text-dark'>
                         Invoice Date
                         <br />
-                        <span className='text-lg font-bold text-color-text-black dark:text-color-text-light'> {invoiceData.billedDate}</span>
+                        <span className='text-lg font-bold text-color-text-black dark:text-color-text-light'> {formatDate(invoiceData.billedDate)}</span>
                     </p>
                     <br />
                     <p className='text-base text-accent-color-text dark:text-grey-text-dark'>
                         Payment Due
                         <br />
-                        <span className='text-lg font-bold text-color-text-black dark:text-color-text-light'> {invoiceData.dueDate}</span>
+                        <span className='text-lg font-bold text-color-text-black dark:text-color-text-light'> {formatDate(invoiceData.dueDate)}</span>
                     </p>
                 </div>
 
@@ -33,7 +34,7 @@ export const InvoiceInfo = ({ invoiceData }: Props) => {
                     <br />
                     <span className='text-lg font-bold text-color-text-black dark:text-color-text-light'>{invoiceData.billerName}</span>
                     <br />
-                    {/* {invoiceData.billerAddress} */}
+                    {invoiceData.billerAddress}
                 </p>
                 <br />
                 <p className='text-base text-accent-color-text dark:text-grey-text-dark'>

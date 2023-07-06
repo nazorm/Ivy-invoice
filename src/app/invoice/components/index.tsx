@@ -17,12 +17,23 @@ import Modal from '@/components/Modal';
 export const InvoiceScreen = (invoiceId: any) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [invoiceInformation, setInvoiceInformation] = useState<IInvoiceProps>();
+    const [loading, setLoading] = useState(false)
+    //IInvoiceProps
+    const [invoiceInformation, setInvoiceInformation] = useState<any>();
 
+    const getSingleInvoice = async () => {
+        setLoading(true)
+        const response = await fetch(`https://invoice-api-8h1u.onrender.com/invoices/single/${invoiceId.invoiceId}`);
+        const invoiceData = await response.json();
+        setInvoiceInformation(invoiceData);
+        setLoading(false);
+    }
+console.log(invoiceInformation)
     useEffect(() => {
-        const info = invoiceData.find((data) => data.id === +invoiceId.invoiceId)
-        setInvoiceInformation(info)
+        getSingleInvoice();
     }, [])
+
+
 
     const handleEdit = () => {
         setIsDrawerOpen(true)
@@ -53,7 +64,7 @@ export const InvoiceScreen = (invoiceId: any) => {
                         <span className='mr-4 text-light-grey dark:text-grey-text-dark text-sm font-medium'>
                             Status
                         </span>
-                        <StatusTags status='Pending' />
+                        <StatusTags status={invoiceInformation? invoiceInformation.status : ''} />
                     </p>
                     <div className='flex items-center md:w-1/3 justify-between'>
                         <Button
