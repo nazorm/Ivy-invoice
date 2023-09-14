@@ -82,7 +82,7 @@ console.log(invoiceInformation)
 
                 </div>
                 {invoiceInformation &&
-                    <InvoiceInfo invoiceData={invoiceInformation} />
+                    <InvoiceInfo invoiceData={invoiceInformation} loading={loading} />
                 }
 
             </section>

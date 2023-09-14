@@ -18,6 +18,7 @@ export const TextInput = (props: ITextInputProps) => {
             break;
         case "half":
             widthStyle = "md:w-5/6"
+            break;
         case "quarter":
             widthStyle = "md:w-5/6"
             break;
