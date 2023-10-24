@@ -30,7 +30,7 @@ export const ItemList = ({ itemsList: items, isCurrencyShown, handleDelete}: Pro
                             <td>{isCurrencyShown ? data.itemCurrency : ''}{data.totalItemPrice}</td>
                             {!isCurrencyShown &&
                                 <td >
-                                    <Image src={binIcon} alt='bin'  onClick={()=>handleDelete?.(data._id)} className='hover:cursor-pointer'/>
+                                    <Image src={binIcon} alt='bin'  onClick={()=>handleDelete?.(data.itemName)} className='hover:cursor-pointer'/>
                                 </td>
                             }
 

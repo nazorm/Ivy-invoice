@@ -5,20 +5,37 @@ import { invoiceData } from '../invoiceData';
 import { ItemList } from './ItemList';
 import { Button } from '@/components/Button';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { v4 as uuidv4 } from 'uuid';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
+const schema = yup.object().shape({
+    billerName: yup.string().required(),
+    invoiceName: yup.string().required(),
+    billerEmail: yup.string().email().required(),
+    billerAddress: yup.string().required(),
+    billedDate: yup.string().required(),
+    dueDate: yup.string().required(),
+    billerCity: yup.string().required(),
+    billerCountry: yup.string().required(),
+    // items:yup.array(
+    //   yup.string().required(),
+    // )
+    // .min(1)
+})
 interface Props {
-    isEditing: boolean
-    invoiceInformation?: IInvoiceProps
+    isEditing: boolean,
+    invoiceInformation?: IInvoiceProps,
+    setLoading :(loading: boolean)=>void,
 }
-export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => {
+export const AddEditInvoiceForm = ({ isEditing, invoiceInformation, setLoading }: Props) => {
     const [newItem, setNewItem] = useState({
-        itemName: '', qty: '', unitPrice: '',
+        itemName: '', qty: '', unitPrice: '', itemCurrency: '₦',
     })
-
-
+const [grandTotal, setGrandTotal] = useState();
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
-    const { control, handleSubmit, register } = useForm({
+    const random = Math.floor(Math.random() * 9000 + 1000);
+
+    const { control, handleSubmit, register, formState: { isDirty, errors } } = useForm({
         defaultValues: {
             billerName: '',
             invoiceName: '',
@@ -28,14 +45,22 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
             dueDate: '',
             billerCity: '',
             billerCountry: '',
-            items: []
-        }
+            // items: []
+
+        },
+        mode: "onChange",
+        resolver: yupResolver(schema)
     });
 
+    const handleTotalAmount = (newPreviewItems: any[]) => {
+        const newGroundTotal = newPreviewItems.reduce((a, b) => a + b.totalItemPrice, 0);
+        setGrandTotal(newGroundTotal)
+       
+      };
     useEffect(() => {
         if (isEditing) {
-            const list = invoiceInformation!.items.map((data: any) => data);
-            setInvoiceItemList(list)
+            const list = invoiceInformation!.items?.map((data: any) => data);
+            setInvoiceItemList(list!)
         }
     }, [])
 
@@ -46,19 +71,30 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
             [event.target.name]: value,
         })
     }
-    const handleDelete = (id: string) => {
-        const newList = invoiceItemList.filter(item => item._id !== id)
+    const handleDelete = (name: string) => {
+        const newList = invoiceItemList.filter(item => item.itemName !== name)
         setInvoiceItemList(newList);
+        handleTotalAmount(newList);
     }
+
+
+    // useEffect(() => {
+    //     if (invoiceItemList.length > 0) {
+    //       handleTotalAmount(invoiceItemList);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   }, []);
+
+
     const handleAddNewItem = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const latestItem = {
             ...newItem,
-            _id: uuidv4(),
-            itemCurrency: '$',
             totalItemPrice: Number(newItem.unitPrice) * Number(newItem.qty),
         }
-        setInvoiceItemList([...invoiceItemList, latestItem]);
+        const newListItems = [...invoiceItemList, latestItem]
+        setInvoiceItemList(newListItems);
+        handleTotalAmount(newListItems);
     }
 
     const handleCancel = (event: { preventDefault: () => void; }) => {
@@ -72,11 +108,37 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
 
     }
 
+    const submitNewInvoice = async (data: IInvoiceProps)=>{
+        setLoading(true)
+        try {
+            const response = await fetch("https://invoice-api-8h1u.onrender.com/invoices/create", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+        
+            const result = await response.json();
+            console.log("Success:", result);
+          } catch (error) {
+            console.error("Error:", error);
+          }
+    }
     const onSubmit: SubmitHandler<IInvoiceProps> = data => {
         if (isEditing) {
             console.log('editing data', data)
         } else {
-            console.log('submiting new data', data)
+            const submitData = {
+                ...data,
+                items: invoiceItemList,
+                totalAmountCurrency: '₦',
+                invoiceCode: "#XM" + random,
+                status: 'Pending',
+                totalAmount : Number(grandTotal),
+            }
+
+             submitNewInvoice(submitData)
         }
     }
     return (
@@ -91,8 +153,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         {...field}
                         label='Client&apos;s name'
                         inputWidth='full'
-                        error=''
-                        // {...register('billerName', { value: invoiceInformation?.billerName })}
+                        error={errors.billerName?.message ?? ''}
                     />
                 }
             />
@@ -105,6 +166,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         {...field}
                         label='Client&apos;s email'
                         inputWidth='full'
+                        error={errors.billerEmail?.message ?? ''}
                     />
                 }
             />
@@ -117,6 +179,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         {...field}
                         label='Street address'
                         inputWidth='full'
+                        error={errors.billerAddress?.message ?? ''}
                     />
                 }
             />
@@ -130,6 +193,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                             {...field}
                             label='City'
                             inputWidth='half'
+                            error={errors.billerCity?.message ?? ''}
                         />
                     }
                 />
@@ -142,6 +206,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                             {...field}
                             label='Country'
                             inputWidth='half'
+                            error={errors.billerCountry?.message ?? ''}
                         />
                     }
                 />
@@ -157,6 +222,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                             label='Invoice Date'
                             type='date'
                             inputWidth='half'
+                            error={errors.billedDate?.message ?? ''}
                         />
                     }
                 />
@@ -170,6 +236,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                             label='Due Date'
                             type='date'
                             inputWidth='half'
+                            error={errors.dueDate?.message ?? ''}
                         />
                     }
                 />
@@ -184,6 +251,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         {...field}
                         label='Project Description (e.g Graphic Design)'
                         inputWidth='full'
+                        error={errors.invoiceName?.message ?? ''}
                     />
                 }
             />
@@ -250,14 +318,18 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation }: Props) => 
                         /> :
                         <Button
                             btnType='draft'
+                            type='button'
                             btnText='Save as Draft'
                             primaryAction={handleDiscard}
+                            disabled={!isDirty}
                         />
                     }
                     <Button
                         btnType='primary'
+                        type='button'
                         btnText={isEditing ? 'Save Changes' : 'Save & Send'}
                         primaryAction={handleSubmit(onSubmit)}
+                        disabled={!isDirty}
                     />
                 </div>
             </section>

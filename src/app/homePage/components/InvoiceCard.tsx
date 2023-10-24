@@ -20,6 +20,7 @@ export interface IInvoicecardProps {
     totalAmountCurrency: string,
     totalAmount: string,
     items: IItems[],
+    createdAt: Date;
 }
 interface IItems{
     itemName: string,

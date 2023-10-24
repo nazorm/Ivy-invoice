@@ -9,13 +9,13 @@ export interface IInvoiceProps {
   billedDate?: string;
   dueDate?: string;
   totalAmountCurrency?: string,
-  totalAmount?: string,
+  totalAmount?: number,
   billerCity?: string,
   billerCountry?: string,
-  items: IItemInfoProps[],
+  items?: IItemInfoProps[],
 }
 export interface IItemInfoProps {
-  _id: string,
+  _id?: string,
   itemName: string,
   qty: number | string,
   unitPrice: number | string,

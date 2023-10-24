@@ -4,7 +4,7 @@ import { Header } from './components/Header';
 import { IInvoicecardProps, InvoiceCard } from './components/InvoiceCard';
 import { invoiceData } from './invoiceCardData';
 import { EmptyInvoiceList } from './components/EmptyInvoiceList';
-
+import { ToastContainer } from 'react-toastify';
 
 const HomePage = () => {
     const [invoiceList, setiInvoiceList] = useState<IInvoicecardProps[] | []>([]);
@@ -27,14 +27,29 @@ useEffect(()=>{
     getInvoices();
 },[])
 
+const sortedInvoices = invoiceList?.slice().sort(function (a, b) {
+    return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();
+  });
+
     return (
         <main className='border border-dotted border-red-400 w-full '>
+                  <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light" />
             <section className='w-4/5 mx-auto my-20'>
-                <Header handleSelectedFilter={handleSelectedFilter} noOfInvoice={invoiceList.length} />
+                <Header handleSelectedFilter={handleSelectedFilter} noOfInvoice={sortedInvoices.length} />
                 {loading && <p>Loading...</p>}
                 <section className='mt-20'>
-                    {invoiceList.length > 0 ?
-                        invoiceList.map((data) => {
+                    {sortedInvoices.length > 0 ?
+                        sortedInvoices.map((data) => {
                             return (
                                 <InvoiceCard
                                     key={data._id}
