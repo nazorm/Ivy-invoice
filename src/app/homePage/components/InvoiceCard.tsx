@@ -22,7 +22,7 @@ export interface IInvoicecardProps {
     items: IItems[],
     createdAt: Date;
 }
-interface IItems{
+interface IItems {
     itemName: string,
     qty: number,
     unitPrice: number,
@@ -35,27 +35,31 @@ export const InvoiceCard = (props: IInvoiceProps) => {
 
 
     return (
-        <div className='flex flex-col sm:flex-row-reverse justify-around md:justify-between space-x-3 px-7  h-52 sm:h-20 w-full items-center border-transparent rounded-lg bg-color-text-light shadow-color-text-light/50 dark:bg-grey-border-dark dark:shadow-grey-border-dark/50 shadow-xl mt-5'>
+        <div>
+            <Link
+                href={`/invoice/${invoice._id}`}
+                className='flex flex-col sm:flex-row-reverse justify-around md:justify-between space-x-3 px-7  h-52 sm:h-20 w-full items-center border-transparent rounded-lg bg-color-text-light shadow-color-text-light/50 dark:bg-grey-border-dark dark:shadow-grey-border-dark/50 shadow-xl mt-5'
+            >
 
+                <div className='flex space-x-3 justify-between w-full sm:w-80'>
+                    <StatusTags status={invoice.status} />
+                    <button className='mt-2'>
+                        <Link
+                            href={`/invoice/${invoice._id}`}
+                        > <Image src={arrowIcon} alt='more' /></Link>
 
-            <div className='flex space-x-3 justify-between w-full sm:w-80'>
-                <StatusTags status={invoice.status} />
-                <button className='mt-2'>
-                    <Link
-                        href={`/invoice/${invoice._id}`}
-                    > <Image src={arrowIcon} alt='more' /></Link>
+                    </button>
+                </div>
 
-                </button>
-            </div>
-
-            <div className='flex items-center space-x-6  w-full justify-between sm:justify-around'>
-                <span className='text-sm text-light-grey dark:text-color-text-light'>{invoice.billerName}</span>
-                <p className='font-bold text-lg'>{invoice.totalAmountCurrency} {invoice.totalAmount}</p>
-            </div>
-            <div className='flex items-center space-x-6 w-full justify-between sm:justify-around'>
-                <p className='font-bold text-sm'>{invoice.invoiceCode}</p>
-                <span className='text-sm text-grey-text-light dark:text-grey-text-dark'>{formatDate(invoice.dueDate)}</span>
-            </div>
+                <div className='flex items-center space-x-6  w-full justify-between sm:justify-around'>
+                    <span className='text-sm text-light-grey dark:text-color-text-light'>{invoice.billerName}</span>
+                    <p className='font-bold text-lg'>{invoice.totalAmountCurrency} {invoice.totalAmount}</p>
+                </div>
+                <div className='flex items-center space-x-6 w-full justify-between sm:justify-around'>
+                    <p className='font-bold text-sm'>{invoice.invoiceCode}</p>
+                    <span className='text-sm text-grey-text-light dark:text-grey-text-dark'>{formatDate(invoice.dueDate)}</span>
+                </div>
+            </Link>
         </div>
     )
 }

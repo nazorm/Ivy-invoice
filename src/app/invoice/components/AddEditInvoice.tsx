@@ -7,6 +7,9 @@ import { Button } from '@/components/Button';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const schema = yup.object().shape({
     billerName: yup.string().required(),
@@ -25,26 +28,27 @@ const schema = yup.object().shape({
 interface Props {
     isEditing: boolean,
     invoiceInformation?: IInvoiceProps,
-    setLoading :(loading: boolean)=>void,
+    setLoading: (loading: boolean) => void,
 }
 export const AddEditInvoiceForm = ({ isEditing, invoiceInformation, setLoading }: Props) => {
+    const router = useRouter()
     const [newItem, setNewItem] = useState({
         itemName: '', qty: '', unitPrice: '', itemCurrency: '₦',
     })
-const [grandTotal, setGrandTotal] = useState();
+    const [grandTotal, setGrandTotal] = useState();
     const [invoiceItemList, setInvoiceItemList] = useState<IItemInfoProps[]>([])
     const random = Math.floor(Math.random() * 9000 + 1000);
 
     const { control, handleSubmit, register, formState: { isDirty, errors } } = useForm({
         defaultValues: {
-            billerName: '',
-            invoiceName: '',
-            billerEmail: '',
-            billerAddress: '',
-            billedDate: '',
-            dueDate: '',
-            billerCity: '',
-            billerCountry: '',
+            billerName: invoiceInformation?.billerName ?? '',
+            invoiceName: invoiceInformation?.invoiceName ?? '',
+            billerEmail: invoiceInformation?.billerEmail ?? '',
+            billerAddress: invoiceInformation?.billerAddress ?? '',
+            billedDate: invoiceInformation?.billedDate ?? '',
+            dueDate: invoiceInformation?.dueDate ?? '',
+            billerCity: invoiceInformation?.billerCity ?? '',
+            billerCountry: invoiceInformation?.billerCountry ?? '',
             // items: []
 
         },
@@ -55,11 +59,11 @@ const [grandTotal, setGrandTotal] = useState();
     const handleTotalAmount = (newPreviewItems: any[]) => {
         const newGroundTotal = newPreviewItems.reduce((a, b) => a + b.totalItemPrice, 0);
         setGrandTotal(newGroundTotal)
-       
-      };
+
+    };
     useEffect(() => {
         if (isEditing) {
-            const list = invoiceInformation!.items?.map((data: any) => data);
+            const list = invoiceInformation?.items?.map((data: any) => data);
             setInvoiceItemList(list!)
         }
     }, [])
@@ -78,14 +82,6 @@ const [grandTotal, setGrandTotal] = useState();
     }
 
 
-    // useEffect(() => {
-    //     if (invoiceItemList.length > 0) {
-    //       handleTotalAmount(invoiceItemList);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    //   }, []);
-
-
     const handleAddNewItem = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const latestItem = {
@@ -100,34 +96,60 @@ const [grandTotal, setGrandTotal] = useState();
     const handleCancel = (event: { preventDefault: () => void; }) => {
 
     }
-    const handleDraft = (event: { preventDefault: () => void; }) => {
-
-    }
 
     const handleDiscard = (event: { preventDefault: () => void; }) => {
 
     }
 
-    const submitNewInvoice = async (data: IInvoiceProps)=>{
+    const submitNewInvoice = async (data: IInvoiceProps) => {
         setLoading(true)
         try {
             const response = await fetch("https://invoice-api-8h1u.onrender.com/invoices/create", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             });
-        
+            setLoading(false)
             const result = await response.json();
-            console.log("Success:", result);
-          } catch (error) {
+        } catch (error) {
+            setLoading(false)
             console.error("Error:", error);
-          }
+        }
+        router.push('/')
     }
+
+    const editExistingInvoice = async (data: IInvoiceProps) => {
+        setLoading
+        try {
+            const response = await fetch(`https://invoice-api-8h1u.onrender.com/invoices/update/${invoiceInformation?._id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            toast.success("Status Update Successful")
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        router.push('/')
+    }
+
+
+
     const onSubmit: SubmitHandler<IInvoiceProps> = data => {
         if (isEditing) {
-            console.log('editing data', data)
+            const submitData = {
+                ...data,
+                items: invoiceItemList,
+                status: 'Pending',
+                totalAmount: Number(grandTotal),
+            }
+
+            editExistingInvoice(submitData)
         } else {
             const submitData = {
                 ...data,
@@ -135,10 +157,10 @@ const [grandTotal, setGrandTotal] = useState();
                 totalAmountCurrency: '₦',
                 invoiceCode: "#XM" + random,
                 status: 'Pending',
-                totalAmount : Number(grandTotal),
+                totalAmount: Number(grandTotal),
             }
 
-             submitNewInvoice(submitData)
+            submitNewInvoice(submitData)
         }
     }
     return (
@@ -148,6 +170,7 @@ const [grandTotal, setGrandTotal] = useState();
             <Controller
                 name='billerName'
                 control={control}
+                defaultValue={invoiceInformation?.billerName}
                 render={({ field }) =>
                     <TextInput
                         {...field}
@@ -161,6 +184,7 @@ const [grandTotal, setGrandTotal] = useState();
             <Controller
                 name='billerEmail'
                 control={control}
+                defaultValue={invoiceInformation?.billerEmail}
                 render={({ field }) =>
                     <TextInput
                         {...field}
@@ -174,6 +198,7 @@ const [grandTotal, setGrandTotal] = useState();
             <Controller
                 name='billerAddress'
                 control={control}
+                defaultValue={invoiceInformation?.billerAddress}
                 render={({ field }) =>
                     <TextInput
                         {...field}
@@ -188,6 +213,7 @@ const [grandTotal, setGrandTotal] = useState();
                 <Controller
                     name='billerCity'
                     control={control}
+                    defaultValue={invoiceInformation?.billerCity}
                     render={({ field }) =>
                         <TextInput
                             {...field}
@@ -201,6 +227,7 @@ const [grandTotal, setGrandTotal] = useState();
                 <Controller
                     name='billerCountry'
                     control={control}
+                    defaultValue={invoiceInformation?.billerCountry}
                     render={({ field }) =>
                         <TextInput
                             {...field}
@@ -216,6 +243,7 @@ const [grandTotal, setGrandTotal] = useState();
                 <Controller
                     name='billedDate'
                     control={control}
+                    defaultValue={invoiceInformation?.billedDate}
                     render={({ field }) =>
                         <TextInput
                             {...field}
@@ -230,6 +258,7 @@ const [grandTotal, setGrandTotal] = useState();
                 <Controller
                     name='dueDate'
                     control={control}
+                    defaultValue={invoiceInformation?.dueDate}
                     render={({ field }) =>
                         <TextInput
                             {...field}
@@ -240,7 +269,6 @@ const [grandTotal, setGrandTotal] = useState();
                         />
                     }
                 />
-
             </div>
 
             <Controller
@@ -282,7 +310,7 @@ const [grandTotal, setGrandTotal] = useState();
                     />
                     <TextInput
                         name='unitPrice'
-                        label='price'
+                        label='Unit Price'
                         type='number'
                         inputWidth='quarter'
                         value={newItem.unitPrice}
@@ -310,18 +338,11 @@ const [grandTotal, setGrandTotal] = useState();
                 }
                 <div className='flex mt-5  md:mt-0 justify-between md:w-7/12'>
 
-                    {isEditing ?
+                    {isEditing &&
                         <Button
                             btnType='secondary'
                             btnText='Cancel'
                             primaryAction={handleCancel}
-                        /> :
-                        <Button
-                            btnType='draft'
-                            type='button'
-                            btnText='Save as Draft'
-                            primaryAction={handleDiscard}
-                            disabled={!isDirty}
                         />
                     }
                     <Button

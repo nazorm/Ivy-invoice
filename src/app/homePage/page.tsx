@@ -32,7 +32,7 @@ const sortedInvoices = invoiceList?.slice().sort(function (a, b) {
   });
 
     return (
-        <main className='border border-dotted border-red-400 w-full '>
+        <main className='w-full overflow-y-scroll max-h-screen'>
                   <ToastContainer 
                 position="top-right"
                 autoClose={5000}
@@ -47,7 +47,7 @@ const sortedInvoices = invoiceList?.slice().sort(function (a, b) {
             <section className='w-4/5 mx-auto my-20'>
                 <Header handleSelectedFilter={handleSelectedFilter} noOfInvoice={sortedInvoices.length} />
                 {loading && <p>Loading...</p>}
-                <section className='mt-20'>
+                <section className='mt-20 '>
                     {sortedInvoices.length > 0 ?
                         sortedInvoices.map((data) => {
                             return (
