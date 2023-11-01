@@ -49,7 +49,7 @@ export const InvoiceInfo = ({ invoiceData, loading }: Props) => {
                 </section>
                 <div className='w-full my-10 bg-default-light-color dark:bg-grey-blue p-5 rounded-lg'>
                     <div className='md:m-10'>
-                        <ItemList itemsList={invoiceData.items} isCurrencyShown={true} />
+                        <ItemList itemsList={invoiceData.items!} isCurrencyShown={true} />
                     </div>
 
                     <div className='flex w-full justify-between items-center md:pl-10 md:pr-16 h-20 mt-10 px-5 bg-regal-blue dark:bg-color-text-black rounded-lg'>
