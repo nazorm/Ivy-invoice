@@ -3,7 +3,7 @@ import { TextInput } from '@/components/form/TextInput';
 import { IInvoiceProps, IItemInfoProps } from '../types';
 import { invoiceData } from '../invoiceData';
 import { ItemList } from './ItemList';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/Button/index';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

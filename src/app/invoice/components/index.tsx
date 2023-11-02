@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import backArrow from '../../../assets/back-arrow.svg'
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/Button/index';
 import { StatusTags } from '@/components/status';
 import { InvoiceInfo } from './InvoiceInfo';
 import { ItemList } from './ItemList';
