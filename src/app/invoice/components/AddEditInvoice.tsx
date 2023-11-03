@@ -318,7 +318,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation, setLoading }
                     />
 
                 </div>
-                <div className='flex justify-end mt-5'>
+                <div className='flex justify-start mt-5 w-full'>
                     <Button
                         btnType='secondary'
                         btnText='+ Add New Item'
@@ -328,7 +328,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation, setLoading }
             </div>
 
 
-            <section className='flex md:justify-between mt-10'>
+            <section className='flex md:justify-between mt-10 items-center'>
                 {!isEditing &&
                     <Button
                         btnType='secondary'
@@ -336,7 +336,7 @@ export const AddEditInvoiceForm = ({ isEditing, invoiceInformation, setLoading }
                         primaryAction={handleDiscard}
                     />
                 }
-                <div className='flex mt-5  md:mt-0 justify-between md:w-7/12'>
+                <div className='flex ml-4 md:mt-0 justify-between md:w-7/12'>
 
                     {isEditing &&
                         <Button

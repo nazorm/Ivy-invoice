@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { type } from 'os';
 import React from 'react';
 
 interface Props {
@@ -34,12 +33,12 @@ export const Button = (props: Props) => {
     }
 
     return (
-        <button className={`${colorClasses} disabled:${colorClasses}/[.5] flex rounded-3xl px-4  py-2 text-sm  font-bold text-color-text-light`}
+        <button className={`${colorClasses} disabled:${colorClasses}/[.5]  w-32 md:w-fit flex items-center h-7 rounded-3xl px-2 py-2 md:p-4   text-xs md:text-sm  font-bold text-color-text-light place-content-center`}
             disabled={disabled}
             onClick={primaryAction}
             type= {type}
         >
-            {hasIcon && <p className='mr-3 w-6 h-6 rounded-full bg-color-text-light text-accent-color font-bold'>
+            {hasIcon && <p className='mr-3 w-4 h-4 md:w-6 md:h-6 flex items-center justify-center rounded-full bg-color-text-light text-accent-color font-bold text-xs md:text-sm'>
                 +
             </p>}
             {btnText}

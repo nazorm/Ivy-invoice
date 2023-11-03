@@ -38,7 +38,7 @@ export const InvoiceCard = (props: IInvoiceProps) => {
         <div>
             <Link
                 href={`/invoice/${invoice._id}`}
-                className='flex flex-col sm:flex-row-reverse justify-around md:justify-between space-x-3 px-7  h-52 sm:h-20 w-full items-center border-transparent rounded-lg bg-color-text-light shadow-color-text-light/50 dark:bg-grey-border-dark dark:shadow-grey-border-dark/50 shadow-xl mt-5'
+                className='flex flex-col sm:flex-row-reverse justify-around md:justify-between space-x-3 px-7 h-52 sm:h-20 w-full items-center border-transparent rounded-lg bg-color-text-light shadow-color-text-light/50 dark:bg-grey-border-dark dark:shadow-grey-border-dark/50 shadow-xl mt-5'
             >
 
                 <div className='flex space-x-3 justify-between w-full sm:w-80'>
